@@ -43,8 +43,8 @@ development_status:
   epic-1: in-progress
   1-1-project-initialization-rust-logging: done
   1-2-battery-state-polling-rust: done
-  1-3-basic-system-tray: ready-for-dev
-  1-4-auto-start-configuration: backlog
+  1-3-basic-system-tray: done
+  1-4-auto-start-configuration: done
   epic-1-retrospective: optional
 
   epic-2: backlog

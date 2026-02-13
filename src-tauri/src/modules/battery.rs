@@ -35,7 +35,7 @@ pub fn init_background_poll() {
             }
 
             // Poll every 5 seconds for debug/development (story says 60s, plan says 5s for dev)
-            thread::sleep(Duration::from_secs(5));
+            thread::sleep(Duration::from_secs(100));
         }
     });
 }
