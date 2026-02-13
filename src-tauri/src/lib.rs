@@ -1,5 +1,5 @@
 use tauri_plugin_autostart::MacosLauncher;
-// use tauri::Manager;
+use tauri::Manager;
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[tauri::command]
@@ -13,6 +13,7 @@ mod modules;
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
+        .plugin(tauri_plugin_notification::init())
         .plugin(tauri_plugin_autostart::init(MacosLauncher::LaunchAgent, Some(vec![])))
         .setup(|app| {
             #[cfg(desktop)]
@@ -31,7 +32,12 @@ pub fn run() {
                 }
             }
 
-            modules::battery::init_background_poll();
+            // Story 3.1 - Load Settings
+            let settings = modules::config::load_settings(app.handle());
+            log::info!("Settings loaded: {:?}", settings);
+            app.manage(settings);
+
+            modules::battery::init_background_poll(app.handle().clone());
             let handle = app.handle();
             modules::tray::create_tray(&handle)?;
             Ok(())

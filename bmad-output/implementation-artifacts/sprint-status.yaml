@@ -47,15 +47,15 @@ development_status:
   1-4-auto-start-configuration: done
   epic-1-retrospective: optional
 
-  epic-2: backlog
-  2-1-threshold-logic-event-emission: backlog
-  2-2-native-notification-trigger: backlog
-  2-3-cool-down-dismissal-logic: backlog
+  epic-2: done
+  2-1-battery-full-alert: done
+  2-2-native-notification-trigger: done
+  2-3-cool-down-dismissal-logic: done
   epic-2-retrospective: optional
 
-  epic-3: backlog
-  3-1-settings-persistence-rust: backlog
-  3-2-the-serde-bridge-api-commands: backlog
+  epic-3: active
+  3-1-settings-persistence: done
+  3-2-the-serde-bridge-api-commands: ready-for-dev
   3-3-settings-ui-vanilla-ts: backlog
   3-4-connect-ui-to-backend: backlog
   epic-3-retrospective: optional
