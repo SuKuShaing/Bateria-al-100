@@ -20,7 +20,14 @@ fn save_app_settings(app: AppHandle, state: State<Mutex<AppSettings>>, new_setti
     *current_settings = new_settings.clone();
     
     // Save to disk
-    modules::config::save_settings(&app, &new_settings)
+    let result = modules::config::save_settings(&app, &new_settings);
+
+    // Update tray tooltip
+    if let Some(tray) = app.tray_by_id("tray") {
+        let _ = tray.set_tooltip(Some(format!("Te avisaré cuando la batería llegue al {}%", new_settings.threshold)));
+    }
+
+    result
 }
 
 mod modules;
@@ -61,6 +68,12 @@ pub fn run() {
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![greet, get_app_settings, save_app_settings])
+        .on_window_event(|window, event| {
+            if let tauri::WindowEvent::CloseRequested { api, .. } = event {
+                window.hide().unwrap();
+                api.prevent_close();
+            }
+        })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

@@ -1,20 +1,19 @@
 use tauri::{
     menu::{Menu, MenuItem},
     tray::{MouseButton, TrayIconBuilder, TrayIconEvent},
-    Runtime,
+    Runtime, Manager,
 };
 
 pub fn create_tray<R: Runtime>(app: &tauri::AppHandle<R>) -> tauri::Result<()> {
     let quit_i = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
     let menu = Menu::with_items(app, &[&quit_i])?;
 
+    let state = app.state::<std::sync::Mutex<crate::modules::config::AppSettings>>();
+    let settings = state.lock().unwrap();
+    let tooltip = format!("Te avisaré cuando la batería llegue al {}%", settings.threshold);
+
     let _tray = TrayIconBuilder::with_id("tray")
-        // .icon(app.default_window_icon().unwrap().clone()) // Use app icon
-        // Use a default icon or the app icon. 
-        // For now, let's rely on the default app icon if possible, or tauri's icon handling.
-        // In v2, icon is mandatory for creation usually.
-        // Let's try attempting to load the app icon or a default. 
-        // Actually, let's use the app's default icon.
+        .tooltip(&tooltip)
         .icon(app.default_window_icon().unwrap().clone())
         .menu(&menu)
         .show_menu_on_left_click(false)
@@ -27,19 +26,18 @@ pub fn create_tray<R: Runtime>(app: &tauri::AppHandle<R>) -> tauri::Result<()> {
                 _ => {}
             }
         })
-        .on_tray_icon_event(|_tray, event| {
+        .on_tray_icon_event(|tray, event| {
             match event {
                 TrayIconEvent::Click {
                     button: MouseButton::Left,
                     ..
                 } => {
                     log::info!("Tray icon left clicked");
-                    // Here we could toggle the window visibility
-                    // let app = tray.app_handle();
-                    // if let Some(window) = app.get_window("main") {
-                    //     let _ = window.show();
-                    //     let _ = window.set_focus();
-                    // }
+                    let app = tray.app_handle();
+                    if let Some(window) = app.get_webview_window("main") {
+                        let _ = window.show();
+                        let _ = window.set_focus();
+                    }
                 }
                 _ => {}
             }
