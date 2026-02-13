@@ -4,5 +4,5 @@
 fn main() {
     env_logger::Builder::from_env(env_logger::Env::default().default_filter_or("info")).init();
     log::info!("Batería al 100 started");
-    bateriapan_lib::run()
+    bateria_al_cien_lib::run()
 }
