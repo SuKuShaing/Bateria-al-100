@@ -55,9 +55,9 @@ development_status:
 
   epic-3: active
   3-1-settings-persistence: done
-  3-2-the-serde-bridge-api-commands: ready-for-dev
-  3-3-settings-ui-vanilla-ts: backlog
-  3-4-connect-ui-to-backend: backlog
+  3-2-the-serde-bridge-api-commands: done
+  3-3-settings-ui-vanilla-ts: done
+  3-4-connect-ui-to-backend: done
   epic-3-retrospective: optional
 
   epic-4: backlog

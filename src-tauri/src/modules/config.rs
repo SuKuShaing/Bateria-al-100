@@ -4,6 +4,7 @@ use std::path::PathBuf;
 use tauri::{AppHandle, Manager, Runtime};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct AppSettings {
     pub threshold: u8,
     pub enabled: bool,

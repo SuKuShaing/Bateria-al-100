@@ -1,10 +1,26 @@
 use tauri_plugin_autostart::MacosLauncher;
-use tauri::Manager;
+use tauri::{Manager, State, AppHandle};
+use std::sync::Mutex;
+use modules::config::AppSettings;
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[tauri::command]
 fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
+}
+
+#[tauri::command]
+fn get_app_settings(state: State<Mutex<AppSettings>>) -> AppSettings {
+    state.lock().unwrap().clone()
+}
+
+#[tauri::command]
+fn save_app_settings(app: AppHandle, state: State<Mutex<AppSettings>>, new_settings: AppSettings) -> Result<(), String> {
+    let mut current_settings = state.lock().unwrap();
+    *current_settings = new_settings.clone();
+    
+    // Save to disk
+    modules::config::save_settings(&app, &new_settings)
 }
 
 mod modules;
@@ -35,14 +51,16 @@ pub fn run() {
             // Story 3.1 - Load Settings
             let settings = modules::config::load_settings(app.handle());
             log::info!("Settings loaded: {:?}", settings);
-            app.manage(settings);
+            
+            // Manage state with Mutex for interior mutability (Story 3.2)
+            app.manage(Mutex::new(settings));
 
             modules::battery::init_background_poll(app.handle().clone());
             let handle = app.handle();
             modules::tray::create_tray(&handle)?;
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![greet])
+        .invoke_handler(tauri::generate_handler![greet, get_app_settings, save_app_settings])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

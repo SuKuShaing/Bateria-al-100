@@ -1,6 +1,6 @@
 # Story 3.2: API Commands (Rust -> TS)
 
-Status: ready-for-dev
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -45,8 +45,8 @@ So that I can build the UI without knowing Rust details.
 ## Tasks
 
 - [ ] Initialize Workflow <!-- id: 104 -->
-- [ ] Update Struct with Serde Rename <!-- id: 105 -->
-- [ ] Implement Tauri Commands <!-- id: 106 -->
-- [ ] Register Commands in lib.rs <!-- id: 107 -->
-- [ ] Verify Invoke (e.g. from a temp script or console) <!-- id: 108 -->
-- [ ] Update Story Status <!-- id: 109 -->
+- [x] Update Struct with Serde Rename <!-- id: 105 -->
+- [x] Implement Tauri Commands <!-- id: 106 -->
+- [x] Register Commands in lib.rs <!-- id: 107 -->
+- [x] Verify Invoke (e.g. from a temp script or console) <!-- id: 108 -->
+- [x] Update Story Status <!-- id: 109 -->
