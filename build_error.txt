@@ -1,0 +1,14 @@
+    Checking bateria-al-cien v0.1.0 (D:\Progra\Proyectos_personales\Bateria-al-100\src-tauri)
+error[E0308]: mismatched types
+  --> src\lib.rs:73:24
+   |
+73 |                 if let Some(updater) = handle_clone.updater() {
+   |                        ^^^^^^^^^^^^^   ---------------------- this expression has type `Result<tauri_plugin_updater::Updater, tauri_plugin_updater::Error>`
+   |                        |
+   |                        expected `Result<Updater, Error>`, found `Option<_>`
+   |
+   = note: expected enum `Result<tauri_plugin_updater::Updater, tauri_plugin_updater::Error>`
+              found enum `std::option::Option<_>`
+
+For more information about this error, try `rustc --explain E0308`.
+error: could not compile `bateria-al-cien` (lib) due to 1 previous error

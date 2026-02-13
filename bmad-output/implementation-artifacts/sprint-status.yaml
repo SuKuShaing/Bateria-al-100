@@ -62,5 +62,5 @@ development_status:
 
   epic-4: active
   4-1-github-actions-updater-config: done
-  4-2-update-check-notification: backlog
+  4-2-update-check-notification: done
   epic-4-retrospective: optional

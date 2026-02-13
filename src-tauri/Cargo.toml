@@ -32,4 +32,5 @@ env_logger = "0.11"
 starship-battery = "0.10.3"
 tauri-plugin-autostart = "2.5.1"
 tauri-plugin-notification = "2.3.3"
+tauri-plugin-updater = "2.10.0"
 

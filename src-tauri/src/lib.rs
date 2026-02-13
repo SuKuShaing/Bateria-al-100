@@ -65,8 +65,34 @@ pub fn run() {
             modules::battery::init_background_poll(app.handle().clone());
             let handle = app.handle();
             modules::tray::create_tray(&handle)?;
+
+            // Story 4.2 - Check for updates
+            let handle_clone = app.handle().clone();
+            tauri::async_runtime::spawn(async move {
+                use tauri_plugin_updater::UpdaterExt;
+                if let Ok(updater) = handle_clone.updater() {
+                     match updater.check().await {
+                        Ok(Some(update)) => {
+                            use tauri_plugin_notification::NotificationExt;
+                            if let Err(e) = handle_clone
+                                .notification()
+                                .builder()
+                                .title("Actualización disponible")
+                                .body(&format!("Nueva versión {} disponible. Descárgala desde GitHub.", update.version))
+                                .show()
+                            {
+                                log::error!("Failed to send update notification: {}", e);
+                            }
+                        }
+                        Ok(None) => log::info!("No updates available"),
+                        Err(e) => log::error!("Failed to check for updates: {}", e),
+                    }
+                }
+            });
+
             Ok(())
         })
+        .plugin(tauri_plugin_updater::Builder::new().build())
         .invoke_handler(tauri::generate_handler![greet, get_app_settings, save_app_settings])
         .on_window_event(|window, event| {
             if let tauri::WindowEvent::CloseRequested { api, .. } = event {
