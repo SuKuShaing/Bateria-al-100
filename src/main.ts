@@ -57,6 +57,30 @@ async function saveSettings() {
     }
 }
 
+// --- Battery Animation Glow Logic ---
+async function updateBatteryGlowState() {
+    const wrapper = document.getElementById("glow-wrapper");
+    if (!wrapper) return;
+
+    try {
+        const [level, state] =
+            await invoke<[number, string]>("get_battery_state");
+
+        // Remove previous states
+        wrapper.classList.remove("is-charging", "is-full");
+
+        if (state === "Charging") {
+            wrapper.classList.add("is-charging");
+        } else if (state === "Full" || level >= 100) {
+            wrapper.classList.add("is-full");
+        }
+        // If Discharging or Empty, it gets no class, so the glow hides
+    } catch (e) {
+        // Silently handle errors, maybe no battery or not supported
+        // console.warn("Failed to update battery glow", e);
+    }
+}
+
 window.addEventListener("DOMContentLoaded", () => {
     thresholdSlider = document.querySelector("#threshold-slider");
     thresholdInput = document.querySelector("#threshold-input");
@@ -110,4 +134,56 @@ window.addEventListener("DOMContentLoaded", () => {
     saveBtn?.addEventListener("click", () => {
         saveSettings();
     });
+
+    // --- Update Checker Logic ---
+    const checkUpdateBtn = document.querySelector(
+        "#check-update-btn",
+    ) as HTMLButtonElement;
+    const updateStatus = document.querySelector(
+        "#update-status",
+    ) as HTMLElement;
+    const updateLink = document.querySelector(
+        "#update-link",
+    ) as HTMLAnchorElement;
+
+    // Optional: Get current version to display initially (requires tauri API for version)
+    // For now, we just say "Ready to check"
+    if (updateStatus) updateStatus.textContent = "¿Tienes la última versión?";
+
+    checkUpdateBtn?.addEventListener("click", async () => {
+        try {
+            checkUpdateBtn.disabled = true;
+            checkUpdateBtn.textContent = "Buscando...";
+            updateStatus.textContent = "Buscando actualizaciones...";
+            updateLink.classList.add("hidden");
+
+            const updateInfo = await invoke<[string, string] | null>(
+                "check_update",
+            );
+
+            if (updateInfo) {
+                const [newVersion, downloadUrl] = updateInfo;
+                updateStatus.textContent = `¡Nueva versión ${newVersion} disponible!`;
+                updateStatus.style.color = "var(--text-main)";
+
+                updateLink.href = downloadUrl;
+                updateLink.classList.remove("hidden");
+                checkUpdateBtn.classList.add("hidden"); // Hide button if update exists
+            } else {
+                updateStatus.textContent = "¡Ya tienes la última versión!";
+                updateStatus.style.color = "var(--success)";
+            }
+        } catch (error) {
+            console.error("Failed to check for updates:", error);
+            updateStatus.textContent = "Error al buscar actualizaciones.";
+            updateStatus.style.color = "#ef4444";
+        } finally {
+            checkUpdateBtn.disabled = false;
+            checkUpdateBtn.textContent = "Buscar de nuevo";
+        }
+    });
+
+    // Start battery polling for the UI glow animation
+    updateBatteryGlowState();
+    setInterval(updateBatteryGlowState, 3000); // Check every 3 seconds
 });

@@ -1,7 +1,7 @@
 use starship_battery::Manager;
 use std::thread;
-use std::time::Duration;
 use log::{info, error};
+use std::time::{Duration, Instant};
 use tauri::{AppHandle, Runtime};
 use tauri_plugin_notification::NotificationExt;
 
@@ -20,7 +20,8 @@ pub fn init_background_poll<R: Runtime>(app: AppHandle<R>) {
             }
         };
 
-        let mut already_alerted = false;
+        let mut alert_count = 0;
+        let mut last_alert_time: Option<Instant> = None;
 
         loop {
             // Get current threshold settings
@@ -49,18 +50,48 @@ pub fn init_background_poll<R: Runtime>(app: AppHandle<R>) {
                         if !enabled {
                             // If notifications are disabled, just reset latch if needed
                             match state {
-                                starship_battery::State::Discharging => already_alerted = false,
+                                starship_battery::State::Discharging => {
+                                    alert_count = 0;
+                                    last_alert_time = None;
+                                },
                                 _ => {}
                             }
                         } else {
                             // Threshold Logic (Refactored for Story 3)
                             // Use dynamic threshold
                             let is_full = level >= threshold as f32; 
-                            let is_charging_or_full = state == starship_battery::State::Charging || state == starship_battery::State::Full;
+                            // Windows sometimes reports State::Unknown when plugged in at 100%
+                            let is_plugged_in = state != starship_battery::State::Discharging && state != starship_battery::State::Empty;
 
-                            if is_full && is_charging_or_full {
-                                if !already_alerted {
-                                    info!("THRESHOLD REACHED: Battery is full at {:.0}%!", level);
+                            if is_full && is_plugged_in {
+                                let mut should_alert = false;
+
+                                if alert_count == 0 {
+                                    should_alert = true;
+                                } else if alert_count < 5 {
+                                    if let Some(last_time) = last_alert_time {
+                                        // Calculate required delay based on alert_count
+                                        // 1st alert: immediate (count 0 -> 1)
+                                        // 2nd alert: 5 mins (count 1 -> 2)
+                                        // 3rd alert: 10 mins (count 2 -> 3)
+                                        // 4th alert: 20 mins (count 3 -> 4)
+                                        // 5th alert: 40 mins (count 4 -> 5)
+                                        let delay_minutes = match alert_count {
+                                            1 => 5,
+                                            2 => 10,
+                                            3 => 20,
+                                            4 => 40,
+                                            _ => 0,
+                                        };
+
+                                        if last_time.elapsed() >= Duration::from_secs(delay_minutes * 60) {
+                                            should_alert = true;
+                                        }
+                                    }
+                                }
+
+                                if should_alert {
+                                    info!("THRESHOLD REACHED: Battery is full at {:.0}%! (Alert {}/5)", level, alert_count + 1);
                                     
                                     // Story 2.2 - Trigger Notification
                                     let _ = app.notification()
@@ -69,13 +100,15 @@ pub fn init_background_poll<R: Runtime>(app: AppHandle<R>) {
                                         .body(format!("Tu batería está al {:.0}%. ¡Desconéctala para cuidar su salud!", level))
                                         .show();
 
-                                    already_alerted = true;
+                                    alert_count += 1;
+                                    last_alert_time = Some(Instant::now());
                                 }
                             } else if state == starship_battery::State::Discharging || level < (threshold as f32 - 5.0) {
                                 // Reset latch if we are discharging OR if level drops significantly (5% hysteresis)
-                                if already_alerted {
+                                if alert_count > 0 {
                                     info!("Resetting alert latch (State: {:?}, Level: {:.0}%)", state, level);
-                                    already_alerted = false;
+                                    alert_count = 0;
+                                    last_alert_time = None;
                                 }
                             }
                         }

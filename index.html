@@ -9,7 +9,8 @@
   </head>
   <body>
     <div class="container">
-      <div class="card">
+      <div id="glow-wrapper" class="fancy-glow">
+        <div class="card">
         <div class="header">
           <img src="/src/assets/logo.png" alt="Batería al 100" class="app-logo">
           <h1>Preferencias</h1>
@@ -43,7 +44,14 @@
         </div>
         
         <p id="status-msg" class="status-text hidden"></p>
+
+        <div class="update-section">
+          <p id="update-status" class="update-text">Verificando actualizaciones...</p>
+          <a id="update-link" href="#" class="update-link hidden" target="_blank">Descargar nueva versión</a>
+          <button id="check-update-btn" class="secondary-btn">Buscar Actualizaciones</button>
+        </div>
       </div>
+    </div>
     </div>
   </body>
 </html>
