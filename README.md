@@ -17,9 +17,9 @@
 
 Descarga la última versión para tu sistema operativo desde la sección de **Releases**:
 
-- **🪟 Windows (10/11):** [⬇️ Descargar .exe](https://github.com/SuKuShaing/Bateria-al-100/releases/latest/download/bateriaAlCien_0.1.4_x64-setup.exe) / [⬇️ Descargar .msi](https://github.com/SuKuShaing/Bateria-al-100/releases/latest/download/bateriaAlCien_0.1.4_x64_en-US.msi)
-- **🍎 macOS (Apple Silicon / Intel):** [⬇️ Descargar .dmg](https://github.com/SuKuShaing/Bateria-al-100/releases/latest/download/bateriaAlCien_0.1.4_aarch64.dmg)
-- **🐧 Linux (Ubuntu/Debian):** [⬇️ Descargar .deb](https://github.com/SuKuShaing/Bateria-al-100/releases/latest/download/bateriaAlCien_0.1.4_amd64.deb) / [⬇️ Descargar AppImage](https://github.com/SuKuShaing/Bateria-al-100/releases/latest/download/bateriaAlCien_0.1.4_amd64.AppImage)
+- **🪟 Windows (10/11):** [⬇️ Descargar .exe](https://github.com/SuKuShaing/Bateria-al-100/releases/latest/download/bateriaAlCien_0.1.5_x64-setup.exe) / [⬇️ Descargar .msi](https://github.com/SuKuShaing/Bateria-al-100/releases/latest/download/bateriaAlCien_0.1.5_x64_en-US.msi)
+- **🍎 macOS (Apple Silicon / Intel):** [⬇️ Descargar .dmg](https://github.com/SuKuShaing/Bateria-al-100/releases/latest/download/bateriaAlCien_0.1.5_aarch64.dmg)
+- **🐧 Linux (Ubuntu/Debian):** [⬇️ Descargar .deb](https://github.com/SuKuShaing/Bateria-al-100/releases/latest/download/bateriaAlCien_0.1.5_amd64.deb) / [⬇️ Descargar AppImage](https://github.com/SuKuShaing/Bateria-al-100/releases/latest/download/bateriaAlCien_0.1.5_amd64.AppImage)
 
 > **Nota para Windows:** Al no contar con un certificado de firma digital de pago, es posible que Windows SmartScreen muestre una advertencia de "Editor Desconocido" al instalar. Haz clic en **"Más información"** y luego en **"Ejecutar de todas formas"**.
 
