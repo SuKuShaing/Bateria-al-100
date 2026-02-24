@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "bateriaAlCien",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "identifier": "com.bateria100.app",
   "build": {
     "beforeDevCommand": "npm run dev",
@@ -41,7 +41,7 @@
       "endpoints": [
         "https://github.com/SuKuShaing/Bateria-al-100/releases/latest/download/latest.json"
       ],
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEJEQkY5QjVBNjhGN0Q4MEIKUldRTDJQZG9XcHUvdlQ0OHBIVzgwS2xqcFczWkNlVGVhU2NPVnl6Q0x2OFVFVkw2Y3hENHVINHIK"
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDBDMkU1RTc0MzU4OUEyQTUKRHSzBlY0ZO4OVUdxQzhobE5oQXk2NlpTNi9xRFcxeWFoTGg1NE80MXkKZg=="
     }
   }
 }
