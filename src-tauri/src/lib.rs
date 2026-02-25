@@ -121,14 +121,34 @@ pub fn run() {
                      match updater.check().await {
                         Ok(Some(update)) => {
                             use tauri_plugin_notification::NotificationExt;
-                            if let Err(e) = handle_clone
-                                .notification()
-                                .builder()
-                                .title("Actualización disponible")
-                                .body(&format!("Nueva versión {} disponible. Descárgala desde GitHub.", update.version))
-                                .show()
-                            {
-                                log::error!("Failed to send update notification: {}", e);
+                            use tauri::plugin::PermissionState;
+
+                            let mut has_permission = false;
+                            
+                            if let Ok(state) = handle_clone.notification().permission_state() {
+                                match state {
+                                    PermissionState::Granted => has_permission = true,
+                                    PermissionState::Denied => has_permission = false,
+                                    _ => {
+                                        if let Ok(new_state) = handle_clone.notification().request_permission() {
+                                            has_permission = new_state == PermissionState::Granted;
+                                        }
+                                    }
+                                }
+                            }
+
+                            if has_permission {
+                                if let Err(e) = handle_clone
+                                    .notification()
+                                    .builder()
+                                    .title("Actualización disponible")
+                                    .body(&format!("Nueva versión {} disponible. Descárgala desde GitHub.", update.version))
+                                    .show()
+                                {
+                                    log::error!("Failed to send update notification: {}", e);
+                                }
+                            } else {
+                                log::warn!("Notification permission denied, unable to show update alert.");
                             }
                         }
                         Ok(None) => log::info!("No updates available"),

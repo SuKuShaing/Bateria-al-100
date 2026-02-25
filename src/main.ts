@@ -8,7 +8,6 @@ interface AppSettings {
 let thresholdSlider: HTMLInputElement | null;
 let thresholdInput: HTMLInputElement | null;
 let enabledToggle: HTMLInputElement | null;
-let saveBtn: HTMLButtonElement | null;
 let statusMsg: HTMLElement | null;
 
 async function loadSettings() {
@@ -25,21 +24,18 @@ async function loadSettings() {
 }
 
 async function saveSettings() {
-    if (!thresholdSlider || !enabledToggle || !saveBtn || !statusMsg) return;
+    if (!thresholdSlider || !enabledToggle || !statusMsg) return;
 
     const newSettings: AppSettings = {
         threshold: parseInt(thresholdSlider.value),
         enabled: enabledToggle.checked,
     };
 
-    saveBtn.disabled = true;
-    saveBtn.textContent = "Guardando...";
-
     try {
         await invoke("save_app_settings", { newSettings });
 
         // UI Feedback
-        statusMsg.textContent = "✔ Guardado correctamente";
+        statusMsg.textContent = "✔ Guardado automáticamente";
         statusMsg.className = "status-text success";
         statusMsg.classList.remove("hidden");
 
@@ -51,9 +47,6 @@ async function saveSettings() {
         statusMsg.textContent = "❌ Error al guardar";
         statusMsg.className = "status-text error";
         statusMsg.classList.remove("hidden");
-    } finally {
-        saveBtn.disabled = false;
-        saveBtn.textContent = "Guardar Cambios";
     }
 }
 
@@ -85,7 +78,6 @@ window.addEventListener("DOMContentLoaded", () => {
     thresholdSlider = document.querySelector("#threshold-slider");
     thresholdInput = document.querySelector("#threshold-input");
     enabledToggle = document.querySelector("#enabled-toggle");
-    saveBtn = document.querySelector("#save-btn");
     statusMsg = document.querySelector("#status-msg");
 
     let lastValidValue = 100;
@@ -95,11 +87,16 @@ window.addEventListener("DOMContentLoaded", () => {
         if (thresholdSlider) lastValidValue = parseInt(thresholdSlider.value);
     });
 
-    // 1. Slider -> Input
+    // 1. Slider -> Input (Visual update only while dragging)
     thresholdSlider?.addEventListener("input", (e) => {
         const val = (e.target as HTMLInputElement).value;
         if (thresholdInput) thresholdInput.value = val;
         lastValidValue = parseInt(val);
+    });
+
+    // 1.b Slider change (When dropped, auto-save)
+    thresholdSlider?.addEventListener("change", () => {
+        saveSettings();
     });
 
     // 2. Input -> Slider (while typing)
@@ -113,7 +110,7 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // 3. Input Blur (Validation & Revert)
+    // 3. Input Blur (Validation & Auto-save)
     thresholdInput?.addEventListener("blur", (e) => {
         let val = parseInt((e.target as HTMLInputElement).value);
 
@@ -125,13 +122,17 @@ window.addEventListener("DOMContentLoaded", () => {
                 thresholdSlider.value = lastValidValue.toString();
         } else {
             // Valid? Update lastValid and force formatting
+            let requiresSave = lastValidValue !== val;
             lastValidValue = val;
             if (thresholdInput) thresholdInput.value = val.toString();
             if (thresholdSlider) thresholdSlider.value = val.toString();
+
+            // Validate if we actually need to save
+            if (requiresSave) saveSettings();
         }
     });
 
-    saveBtn?.addEventListener("click", () => {
+    enabledToggle?.addEventListener("change", () => {
         saveSettings();
     });
 
