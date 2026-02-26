@@ -205,10 +205,20 @@ h3 {
     font-size: 0.875rem;
     color: var(--text-color);
     transition: color 0.3s;
+    display: flex;
+    align-items: center;
 }
 
 .nav-link:hover {
     color: var(--primary-color);
+}
+
+.github-nav-icon svg {
+    transition: stroke 0.3s;
+}
+
+.github-nav-icon:hover svg {
+    stroke: var(--primary-color);
 }
 
 /* ===== Dropdown specific ===== */
@@ -419,6 +429,8 @@ h3 {
 
 .feature-card {
     padding: 2rem;
+    display: flex;
+    flex-direction: column;
     transition:
         transform 0.3s,
         box-shadow 0.3s;
@@ -563,8 +575,24 @@ h3 {
         font-size: 2.5rem;
     }
 
-    .nav {
-        display: none; /* Simplification for mobile view */
+    /* Keep nav functional to show GitHub, hide text */
+    .nav-link:not(.github-nav-icon), .nav-cta {
+        display: none;
+    }
+
+    /* Center feature card contents */
+    .feature-card {
+        align-items: center;
+        text-align: center;
+    }
+
+    /* Center footer and logo */
+    .footer-left {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin: 0 auto;
     }
 
     .footer-content {
