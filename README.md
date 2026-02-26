@@ -9,7 +9,12 @@
   <em>Cree una aplicación de escritorio muy ligera, rápida y silenciosa que te avisa cuando tu dispositivo está cargado, previniendo el desgaste prematuro de la batería.</em>
   <br />
   <em>La hice porque quiero cuidar mi batería y alargar al máximo Su vida útil</em>
+  <br />
 </p>
+
+---
+
+<strong>🌐 Sitio Web Oficial: <a href="https://sukushaing.github.io/Bateria-al-100/">https://sukushaing.github.io/Bateria-al-100/</a></strong>
 
 ---
 
@@ -17,9 +22,9 @@
 
 Descarga la última versión para tu sistema operativo desde la sección de **Releases**:
 
-- **🪟 Windows (10/11):** [⬇️ Descargar .exe](https://github.com/SuKuShaing/Bateria-al-100/releases/latest/download/bateriaAlCien_0.1.9_x64-setup.exe) / [⬇️ Descargar .msi](https://github.com/SuKuShaing/Bateria-al-100/releases/latest/download/bateriaAlCien_0.1.9_x64_en-US.msi)
-- **🍎 macOS (Apple Silicon / Intel):** [⬇️ Descargar .dmg](https://github.com/SuKuShaing/Bateria-al-100/releases/latest/download/bateriaAlCien_0.1.9_aarch64.dmg)
-- **🐧 Linux (Ubuntu/Debian):** [⬇️ Descargar .deb](https://github.com/SuKuShaing/Bateria-al-100/releases/latest/download/bateriaAlCien_0.1.9_amd64.deb) / [⬇️ Descargar AppImage](https://github.com/SuKuShaing/Bateria-al-100/releases/latest/download/bateriaAlCien_0.1.9_amd64.AppImage)
+- **🪟 Windows (10/11):** [⬇️ Descargar .exe](https://github.com/SuKuShaing/Bateria-al-100/releases/latest/download/bateriaAlCien_0.1.10_x64-setup.exe) / [⬇️ Descargar .msi](https://github.com/SuKuShaing/Bateria-al-100/releases/latest/download/bateriaAlCien_0.1.10_x64_en-US.msi)
+- **🍎 macOS (Apple Silicon / Intel):** [⬇️ Descargar .dmg](https://github.com/SuKuShaing/Bateria-al-100/releases/latest/download/bateriaAlCien_0.1.10_aarch64.dmg)
+- **🐧 Linux (Ubuntu/Debian):** [⬇️ Descargar .deb](https://github.com/SuKuShaing/Bateria-al-100/releases/latest/download/bateriaAlCien_0.1.10_amd64.deb) / [⬇️ Descargar AppImage](https://github.com/SuKuShaing/Bateria-al-100/releases/latest/download/bateriaAlCien_0.1.10_amd64.AppImage)
 
 > **Nota para Windows:** Al no contar con un certificado de firma digital de pago, es posible que Windows SmartScreen muestre una advertencia de "Editor Desconocido" al instalar. Haz clic en **"Más información"** y luego en **"Ejecutar de todas formas"**.
 

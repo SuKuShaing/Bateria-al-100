@@ -38,7 +38,7 @@ async fn check_update(app: AppHandle) -> Result<Option<(String, String)>, String
         match updater.check().await {
             Ok(Some(update)) => {
                 // Construct basic fallback URL if we can't get it directly from update (updater abstracts the assets)
-                let url = format!("https://github.com/SuKuShaing/Bateria-al-100/releases/latest");
+                let url = format!("https://sukushaing.github.io/Bateria-al-100/");
                 
                 Ok(Some((update.version.clone(), url)))
             },
