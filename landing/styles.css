@@ -403,20 +403,43 @@ h3 {
     clip-path: inset(0 0 0 0);
 }
 
-.glow-effect {
+/* --- Animated Glow Feature for Battery --- */
+@property --rotation {
+    syntax: "<angle>";
+    initial-value: 0turn;
+    inherits: false;
+}
+
+@keyframes rotarHue {
+    from { --rotation: 0turn; }
+    to { --rotation: 1turn; }
+}
+
+@keyframes breathe {
+    0%, 100% { transform: scale(1.05); filter: blur(1rem); opacity: 0.8; }
+    50% { transform: scale(1.15); filter: blur(1.5rem); opacity: 1; }
+}
+
+.battery-glow {
     position: absolute;
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(
-        circle,
-        rgba(56, 189, 248, 0.15) 0%,
-        transparent 60%
-    );
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 0;
-    pointer-events: none;
+    inset: 0;
+    z-index: -1;
+    animation: breathe 4s infinite ease-in-out;
+}
+
+.battery-glow-inner {
+    width: 100%;
+    height: 100%;
+    background-image: conic-gradient(from var(--rotation), var(--color-rojo), var(--color-rosado), var(--color-azul), var(--color-verde), var(--color-amarillo), var(--color-rojo));
+    animation: rotarHue 8s infinite linear;
+    -webkit-mask-image: url('icon.png');
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-image: url('icon.png');
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
 }
 
 /* ===== Features Section ===== */
