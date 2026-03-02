@@ -1,19 +1,19 @@
 /* ===== CSS Variables & Design Tokens ===== */
 :root {
     /* Colors */
-    --bg-color: #0b0f19;
-    --bg-color-light: #151b2b;
-    
+    --bg-color: #0f172a;
+    --bg-color-light: #1e293b;
+
     /* Brand Colors */
-    --color-azul: #007fcd;
+    --color-azul: #38bdf8;
     --color-verde: #00b150;
     --color-amarillo: #ffc026;
     --color-rojo: #ff0c19;
     --color-rosado: #f60f55;
-    
-    --primary-color: var(--color-verde);
-    --primary-color-hover: #009945;
-    
+
+    --primary-color: var(--color-azul);
+    --primary-color-hover: #0ea5e9;
+
     --text-color: #f8fafc;
     --text-muted: #94a3b8;
 
@@ -81,7 +81,7 @@ ul {
 
 /* ===== Utilities ===== */
 .blur-bg {
-    background: rgba(11, 15, 25, 0.8);
+    background: rgba(15, 23, 42, 0.8);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--glass-border);
@@ -145,12 +145,12 @@ h3 {
 .btn-primary {
     background-color: var(--primary-color);
     color: #fff;
-    box-shadow: 0 0 20px rgba(0, 177, 80, 0.3);
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
 }
 
 .btn-primary:hover {
     background-color: var(--primary-color-hover);
-    box-shadow: 0 0 30px rgba(0, 177, 80, 0.5);
+    box-shadow: 0 0 30px rgba(56, 189, 248, 0.5);
     transform: translateY(-2px);
 }
 
@@ -333,9 +333,9 @@ h3 {
 .badge {
     display: inline-block;
     padding: 0.25rem 0.75rem;
-    background: rgba(0, 177, 80, 0.1);
+    background: rgba(56, 189, 248, 0.1);
     color: var(--primary-color);
-    border: 1px solid rgba(0, 177, 80, 0.2);
+    border: 1px solid rgba(56, 189, 248, 0.2);
     border-radius: 9999px;
     font-size: 0.75rem;
     font-weight: 600;
@@ -409,7 +409,7 @@ h3 {
     height: 400px;
     background: radial-gradient(
         circle,
-        rgba(0, 177, 80, 0.15) 0%,
+        rgba(56, 189, 248, 0.15) 0%,
         transparent 60%
     );
     top: 50%;
@@ -439,7 +439,7 @@ h3 {
 .feature-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
-    border-color: rgba(0, 177, 80, 0.3);
+    border-color: rgba(56, 189, 248, 0.3);
 }
 
 .feature-icon {
@@ -448,7 +448,7 @@ h3 {
     background: linear-gradient(
         135deg,
         var(--bg-color-light),
-        rgba(0, 177, 80, 0.1)
+        rgba(56, 189, 248, 0.1)
     );
     width: 80px;
     height: 80px;
@@ -576,7 +576,8 @@ h3 {
     }
 
     /* Keep nav functional to show GitHub, hide text */
-    .nav-link:not(.github-nav-icon), .nav-cta {
+    .nav-link:not(.github-nav-icon),
+    .nav-cta {
         display: none;
     }
 
@@ -600,4 +601,22 @@ h3 {
         gap: 1rem;
         text-align: center;
     }
+}
+
+/* ===== OS Icons ===== */
+.os-icon {
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.primary-btn .btn-icon .os-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.dropdown-item-icon .os-icon {
+    width: 20px;
+    height: 20px;
 }

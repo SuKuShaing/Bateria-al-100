@@ -5,6 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Batería al 100 - Maximiza la Vida Útil de tu Batería</title>
     <meta name="description" content="Aplicación minimalista que te notifica cuando tu batería llega al 100% para evitar la degradación y alargar su vida útil.">
+    
+    <!-- SEO Básico -->
+    <meta name="keywords" content="batería, vida útil, laptop, windows, open source, degradación de batería, notificación batería, cuidado de batería">
+    <meta name="author" content="Sebastián Sanhueza Tapia">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://sukushaing.github.io/Bateria-al-100/" />
+
+    <!-- Open Graph / Meta de Facebook / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sukushaing.github.io/Bateria-al-100/">
+    <meta property="og:title" content="Batería al 100 - Maximiza la Vida Útil de tu Batería">
+    <meta property="og:description" content="Aplicación minimalista que te notifica cuando tu batería llega al 100% para evitar la degradación y alargar su vida útil.">
+    <meta property="og:image" content="https://sukushaing.github.io/Bateria-al-100/og-image.png">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://sukushaing.github.io/Bateria-al-100/">
+    <meta name="twitter:title" content="Batería al 100 - Maximiza la Vida Útil de tu Batería">
+    <meta name="twitter:description" content="Aplicación minimalista que te notifica cuando tu batería llega al 100% para evitar la degradación y alargar su vida útil.">
+    <meta name="twitter:image" content="https://sukushaing.github.io/Bateria-al-100/og-image.png">
+
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,7 +33,7 @@
     <style>
         /* Preload critical CSS variables to prevent flash of unstyled content */
         :root {
-            --bg-color: #0b0f19;
+            --bg-color: #0f172a;
             --text-color: #f1f5f9;
         }
         body { background-color: var(--bg-color); color: var(--text-color); }
@@ -47,7 +68,7 @@
             <div class="container">
                 <div class="hero-grid">
                     <div class="hero-text animate-up">
-                        <div class="badge">Open Source & Minimalista</div>
+                        <div class="badge">Open Source, eficiente y Minimalista</div>
                         <h1 class="hero-title">Maximiza la <span class="highlight">Vida Útil</span> de tu Batería</h1>
                         <p class="hero-subtitle">
                             Una aplicación ligera que te avisa en el momento exacto en que tu batería llega al 100%, 
@@ -144,9 +165,12 @@
                     <img src="icon.png" alt="Logo" class="logo-icon-img">
                     <span class="logo-text">Batería <span class="highlight">al 100</span></span>
                 </div>
-                <p class="footer-copy">&copy; 2026 SuKuShaing. Open Source con licencia MIT.</p>
+                <p class="footer-copy">&copy; 2026 Sebastián Sanhueza Tapia. Open Source con licencia MIT.</p>
             </div>
-            <div class="footer-right">
+            <div class="footer-right" style="display: flex; align-items: center; gap: 1rem;">
+                <a href="https://github.com/SuKuShaing/Bateria-al-100/releases" target="_blank" rel="noopener" style="text-decoration: none; padding-top: 5px;">
+                    <img src="https://img.shields.io/github/downloads/SuKuShaing/Bateria-al-100/total?logo=github&style=flat&color=0ea5e9" alt="Total Downloads" height="24" style="border-radius: 4px; opacity: 0.8; transition: opacity 0.3s; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">
+                </a>
                 <a href="https://github.com/SuKuShaing/Bateria-al-100" target="_blank" rel="noopener noreferrer" class="social-link">
                     <!-- Icono de GitHub -->
                     <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
@@ -156,6 +180,6 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>

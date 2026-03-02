@@ -1,3 +1,5 @@
+import { osIcons } from "./js/icons.js";
+
 document.addEventListener("DOMContentLoaded", () => {
     // --- 1. Scroll Animations (Intersection Observer) ---
     const observerOptions = {
@@ -40,35 +42,46 @@ document.addEventListener("DOMContentLoaded", () => {
         {
             os: "Windows",
             id: "win",
-            icon: "🪟",
+            icon: osIcons.win,
             suffix: "Descargar para Windows",
             file: "bateriaAlCien_0.1.10_x64-setup.exe",
         },
         {
             os: "Mac",
             id: "mac",
-            icon: "🍎",
+            icon: osIcons.mac,
             suffix: "Descargar para Mac",
             file: "bateriaAlCien_0.1.10_aarch64.dmg",
         },
         {
             os: "Linux",
             id: "linux",
-            icon: "🐧",
+            icon: osIcons.linux,
             suffix: "Descargar para Linux",
             file: "bateriaAlCien_0.1.10_amd64.AppImage",
         },
     ];
 
     function detectOS() {
-        const userAgent = window.navigator.userAgent.toLowerCase();
+        try {
+            const userAgent = (
+                window.navigator.userAgent ||
+                window.navigator.vendor ||
+                window.opera ||
+                ""
+            ).toLowerCase();
 
-        if (userAgent.includes("win")) return "win";
-        if (userAgent.includes("mac")) return "mac";
-        if (userAgent.includes("linux") || userAgent.includes("x11"))
-            return "linux";
+            if (userAgent.includes("win")) return "win";
+            if (userAgent.includes("mac")) return "mac";
+            if (userAgent.includes("linux") || userAgent.includes("x11"))
+                return "linux";
 
-        return "win"; // Fallback a Windows por defecto
+            // Si es Android, iOS, o no se reconoce, fuerza Windows por defecto
+            return "win";
+        } catch (error) {
+            // Fallback a Windows en caso de que no se logre detectar o haya un error
+            return "win";
+        }
     }
 
     const currentOsId = detectOS();
@@ -81,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (primaryBtn && primaryOption) {
         primaryBtn.href = baseUrl + primaryOption.file;
         primaryBtnText.textContent = primaryOption.suffix;
-        primaryBtn.querySelector(".btn-icon").textContent = primaryOption.icon;
+        primaryBtn.querySelector(".btn-icon").innerHTML = primaryOption.icon;
     }
 
     // Configurar el menú desplegable (las demás opciones)

@@ -4,6 +4,12 @@
 <h1 align="center">Batería al 100</h1>
 
 <p align="center">
+  <a href="https://github.com/SuKuShaing/Bateria-al-100/releases">
+    <img src="https://img.shields.io/github/downloads/SuKuShaing/Bateria-al-100/total?logo=github&color=blue" alt="Total Downloads">
+  </a>
+</p>
+
+<p align="center">
   <strong>Cuida la salud de tu batería.</strong>
   <br />
   <em>Cree una aplicación de escritorio muy ligera, rápida y silenciosa que te avisa cuando tu dispositivo está cargado, previniendo el desgaste prematuro de la batería.</em>
