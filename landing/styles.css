@@ -468,6 +468,33 @@ h3 {
     color: var(--text-muted);
 }
 
+/* ===== Feature Images ===== */
+.feature-image-container {
+    margin-top: auto;
+    padding-top: var(--spacing-lg);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.feature-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.02);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.feature-card:hover .feature-image {
+    transform: scale(1.05);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
 /* ===== Info Section ===== */
 .info-section {
     background: linear-gradient(

@@ -97,6 +97,18 @@ document.addEventListener("DOMContentLoaded", () => {
         primaryBtn.querySelector(".btn-icon").innerHTML = primaryOption.icon;
     }
 
+    // Configurar imagen de notificación dinámica
+    const notificationImg = document.getElementById("notification-img");
+    if (notificationImg) {
+        if (currentOsId === "mac") {
+            notificationImg.src = "img/Notificación Macos.webp";
+        } else if (currentOsId === "linux") {
+            notificationImg.src = "img/Notificación Linux.webp";
+        } else {
+            notificationImg.src = "img/Notificación Windows.webp";
+        }
+    }
+
     // Configurar el menú desplegable (las demás opciones)
     const dropdownMenu = document.getElementById("dropdown-menu");
     const otherOptions = downloads.filter((d) => d.id !== currentOsId);
