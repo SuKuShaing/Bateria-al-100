@@ -77,6 +77,37 @@ fn get_battery_state() -> Result<(f32, String), String> {
     }
 }
 
+// Story 4.5 - Check and Request Notification Permissions (Frontend access)
+#[tauri::command]
+fn check_notification_permission(app: AppHandle) -> String {
+    use tauri_plugin_notification::NotificationExt;
+    if let Ok(state) = app.notification().permission_state() {
+        match state {
+            tauri::plugin::PermissionState::Granted => "Granted".to_string(),
+            tauri::plugin::PermissionState::Denied => "Denied".to_string(),
+            tauri::plugin::PermissionState::Prompt => "Prompt".to_string(),
+            _ => "Unknown".to_string(),
+        }
+    } else {
+        "Error".to_string()
+    }
+}
+
+#[tauri::command]
+fn request_notification_permission(app: AppHandle) -> String {
+    use tauri_plugin_notification::NotificationExt;
+    if let Ok(state) = app.notification().request_permission() {
+        match state {
+            tauri::plugin::PermissionState::Granted => "Granted".to_string(),
+            tauri::plugin::PermissionState::Denied => "Denied".to_string(),
+            tauri::plugin::PermissionState::Prompt => "Prompt".to_string(),
+            _ => "Unknown".to_string(),
+        }
+    } else {
+        "Error".to_string()
+    }
+}
+
 mod modules;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -160,7 +191,15 @@ pub fn run() {
             Ok(())
         })
         .plugin(tauri_plugin_updater::Builder::new().build())
-        .invoke_handler(tauri::generate_handler![greet, get_app_settings, save_app_settings, check_update, get_battery_state])
+        .invoke_handler(tauri::generate_handler![
+            greet, 
+            get_app_settings, 
+            save_app_settings, 
+            check_update, 
+            get_battery_state,
+            check_notification_permission,
+            request_notification_permission
+        ])
         .on_window_event(|window, event| {
             if let tauri::WindowEvent::CloseRequested { api, .. } = event {
                 window.hide().unwrap();

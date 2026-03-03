@@ -9,6 +9,30 @@ let thresholdSlider: HTMLInputElement | null;
 let thresholdInput: HTMLInputElement | null;
 let enabledToggle: HTMLInputElement | null;
 let statusMsg: HTMLElement | null;
+let permissionWarning: HTMLElement | null;
+
+async function checkAndEnforceNotificationPermission() {
+    if (!enabledToggle || !permissionWarning) return;
+
+    try {
+        const osPermissionState = await invoke<string>(
+            "check_notification_permission",
+        );
+
+        if (osPermissionState === "Denied") {
+            // Forzosamente apagar el toggle si el OS bloquea
+            enabledToggle.checked = false;
+            permissionWarning.classList.remove("hidden");
+
+            // Opcional: Deshabitar el toggle si queremos que ni lo intenten,
+            // pero permitirles intentar (para el prompt de request) es mejor ux en mac.
+        } else {
+            permissionWarning.classList.add("hidden");
+        }
+    } catch (e) {
+        console.error("Failed to check permission state", e);
+    }
+}
 
 async function loadSettings() {
     try {
@@ -18,6 +42,11 @@ async function loadSettings() {
         if (thresholdInput)
             thresholdInput.value = settings.threshold.toString();
         if (enabledToggle) enabledToggle.checked = settings.enabled;
+
+        // Tras cargar la configuración, verificar si el OS nos lo permite
+        if (settings.enabled) {
+            await checkAndEnforceNotificationPermission();
+        }
     } catch (error) {
         console.error("Failed to load settings:", error);
     }
@@ -79,6 +108,7 @@ window.addEventListener("DOMContentLoaded", () => {
     thresholdInput = document.querySelector("#threshold-input");
     enabledToggle = document.querySelector("#enabled-toggle");
     statusMsg = document.querySelector("#status-msg");
+    permissionWarning = document.querySelector("#permission-warning");
 
     let lastValidValue = 100;
 
@@ -132,7 +162,31 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    enabledToggle?.addEventListener("change", () => {
+    enabledToggle?.addEventListener("change", async (e) => {
+        if (!enabledToggle || !permissionWarning) return;
+
+        // Si el usuario intenta prenderlo, validamos permisos nativos
+        if (enabledToggle.checked) {
+            try {
+                const newState = await invoke<string>(
+                    "request_notification_permission",
+                );
+                if (newState === "Denied") {
+                    // El OS o el usuario rechazó el permiso
+                    enabledToggle.checked = false;
+                    permissionWarning.classList.remove("hidden");
+                    return; // No guardar en Rust porque fue denegado
+                } else {
+                    permissionWarning.classList.add("hidden");
+                }
+            } catch (err) {
+                console.error("Error requesting permission", err);
+            }
+        } else {
+            // Si apaga, esconder advertencias pasadas
+            permissionWarning.classList.add("hidden");
+        }
+
         saveSettings();
     });
 
