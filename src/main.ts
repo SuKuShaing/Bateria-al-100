@@ -18,16 +18,26 @@ async function checkAndEnforceNotificationPermission() {
         const osPermissionState = await invoke<string>(
             "check_notification_permission",
         );
+        const updateStatus = document.querySelector(
+            "#update-status",
+        ) as HTMLElement;
 
         if (osPermissionState === "Denied") {
             // Forzosamente apagar el toggle si el OS bloquea
             enabledToggle.checked = false;
-            permissionWarning.classList.remove("hidden");
 
-            // Opcional: Deshabitar el toggle si queremos que ni lo intenten,
-            // pero permitirles intentar (para el prompt de request) es mejor ux en mac.
+            if (updateStatus) {
+                updateStatus.textContent = "Permisos denegados por el sistema";
+                updateStatus.style.color = "#ef4444";
+            }
         } else {
-            permissionWarning.classList.add("hidden");
+            if (
+                updateStatus &&
+                updateStatus.textContent === "Permisos denegados por el sistema"
+            ) {
+                updateStatus.textContent = "¿Tienes la última versión?";
+                updateStatus.style.color = "var(--text-main)";
+            }
         }
     } catch (e) {
         console.error("Failed to check permission state", e);
@@ -163,7 +173,10 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 
     enabledToggle?.addEventListener("change", async (e) => {
-        if (!enabledToggle || !permissionWarning) return;
+        if (!enabledToggle) return;
+        const updateStatus = document.querySelector(
+            "#update-status",
+        ) as HTMLElement;
 
         // Si el usuario intenta prenderlo, validamos permisos nativos
         if (enabledToggle.checked) {
@@ -174,17 +187,34 @@ window.addEventListener("DOMContentLoaded", () => {
                 if (newState === "Denied") {
                     // El OS o el usuario rechazó el permiso
                     enabledToggle.checked = false;
-                    permissionWarning.classList.remove("hidden");
+                    if (updateStatus) {
+                        updateStatus.textContent =
+                            "Permisos denegados por el sistema";
+                        updateStatus.style.color = "#ef4444";
+                    }
                     return; // No guardar en Rust porque fue denegado
                 } else {
-                    permissionWarning.classList.add("hidden");
+                    if (
+                        updateStatus &&
+                        updateStatus.textContent ===
+                            "Permisos denegados por el sistema"
+                    ) {
+                        updateStatus.textContent = "¿Tienes la última versión?";
+                        updateStatus.style.color = "var(--text-main)";
+                    }
                 }
             } catch (err) {
                 console.error("Error requesting permission", err);
             }
         } else {
             // Si apaga, esconder advertencias pasadas
-            permissionWarning.classList.add("hidden");
+            if (
+                updateStatus &&
+                updateStatus.textContent === "Permisos denegados por el sistema"
+            ) {
+                updateStatus.textContent = "¿Tienes la última versión?";
+                updateStatus.style.color = "var(--text-main)";
+            }
         }
 
         saveSettings();
@@ -210,6 +240,9 @@ window.addEventListener("DOMContentLoaded", () => {
             checkUpdateBtn.disabled = true;
             checkUpdateBtn.textContent = "Buscando...";
             updateStatus.textContent = "Buscando actualizaciones...";
+            updateLink.classList.add("hidden");
+
+            updateStatus.style.color = "var(--text-muted)";
             updateLink.classList.add("hidden");
 
             const updateInfo = await invoke<[string, string] | null>(
