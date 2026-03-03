@@ -371,10 +371,31 @@ h3 {
     position: relative;
 }
 
-.battery-wrapper {
+.hero-laptop-container {
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+}
+
+.laptop-outline {
+    width: 100%;
+    height: auto;
+    filter: opacity(0.04);
+    pointer-events: none;
+}
+
+.battery-wrapper {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 200px;
     height: 200px;
+    max-width: 40%;
+    max-height: 40%;
     z-index: 10;
 }
 
