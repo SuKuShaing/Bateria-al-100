@@ -1,6 +1,6 @@
 [package]
 name = "bateria-al-cien"
-default-run = "bateriaAlCien"
+default-run = "BateriaAlCien"
 version = "0.1.0"
 description = "A Tauri App"
 authors = ["you"]
@@ -9,7 +9,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [[bin]]
-name = "bateriaAlCien"
+name = "BateriaAlCien"
 path = "src/main.rs"
 
 [lib]

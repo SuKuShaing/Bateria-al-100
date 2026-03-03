@@ -172,7 +172,7 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    enabledToggle?.addEventListener("change", async (e) => {
+    enabledToggle?.addEventListener("change", async () => {
         if (!enabledToggle) return;
         const updateStatus = document.querySelector(
             "#update-status",

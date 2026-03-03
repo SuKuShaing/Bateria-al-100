@@ -44,21 +44,21 @@ document.addEventListener("DOMContentLoaded", () => {
             id: "win",
             icon: osIcons.win,
             suffix: "Descargar para Windows",
-            file: "bateriaAlCien_0.1.10_x64-setup.exe",
+            file: "BateriaAlCien_0.1.10_x64-setup.exe",
         },
         {
             os: "Mac",
             id: "mac",
             icon: osIcons.mac,
             suffix: "Descargar para Mac",
-            file: "bateriaAlCien_0.1.10_aarch64.dmg",
+            file: "BateriaAlCien_0.1.10_aarch64.dmg",
         },
         {
             os: "Linux",
             id: "linux",
             icon: osIcons.linux,
             suffix: "Descargar para Linux",
-            file: "bateriaAlCien_0.1.10_amd64.AppImage",
+            file: "BateriaAlCien_0.1.10_amd64.AppImage",
         },
     ];
 

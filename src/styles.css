@@ -42,8 +42,8 @@ body {
 
 .container {
     width: 100%;
-    max-width: 400px;
-    padding: 15px; /* Reduced from 20px to save space */
+    max-width: 440px;
+    padding: 20px;
 }
 
 .card {
@@ -52,27 +52,27 @@ body {
     -webkit-backdrop-filter: blur(12px);
     border: var(--glass-border);
     border-radius: 20px;
-    padding: 25px; /* Reduced from 30px to save space */
+    padding: 32px; 
     box-shadow: var(--glass-shadow);
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Reduced from 25px to save space */
+    gap: 28px; 
 }
 
 .header {
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
 }
 
 .app-logo {
-    width: 70px; /* Reduced from 80px */
-    height: 70px; /* Reduced from 80px */
-    margin-bottom: 5px; /* Reduced from 10px */
+    width: 72px; 
+    height: 72px; 
+    margin-bottom: 12px; 
     filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.5));
 }
 
 h1 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: 600;
     margin: 0;
     background: linear-gradient(to right, #38bdf8, #818cf8);
@@ -84,7 +84,7 @@ h1 {
 .setting-group {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 14px;
 }
 
 .label-row {
@@ -113,6 +113,7 @@ h1 {
     margin: 0;
     font-family: inherit;
     -moz-appearance: textfield; /* Remove spinner on Firefox */
+    appearance: textfield;
 }
 
 /* Remove spinner on WebKit */
@@ -179,6 +180,7 @@ h1 {
     margin: 0;
     font-family: inherit;
     -moz-appearance: textfield;
+    appearance: textfield;
 }
 
 .highlight-input::-webkit-outer-spin-button,
@@ -298,8 +300,7 @@ input:checked + .slider:before {
 }
 
 .hidden {
-    opacity: 0;
-    pointer-events: none;
+    display: none !important;
 }
 
 /* Update Section */
@@ -307,9 +308,9 @@ input:checked + .slider:before {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px; /* Reduced gap */
-    margin-top: 5px; /* Reduced margin */
-    padding-top: 15px; /* Reduced padding */
+    gap: 16px; 
+    padding-top: 24px; 
+    margin-top: 4px; 
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
