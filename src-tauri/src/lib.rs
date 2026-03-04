@@ -1,5 +1,5 @@
 use tauri_plugin_autostart::MacosLauncher;
-use tauri::{Manager, State, AppHandle};
+use tauri::{Manager, State, AppHandle, Emitter};
 use std::sync::Mutex;
 use modules::config::AppSettings;
 
@@ -113,6 +113,10 @@ mod modules;
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_single_instance::init(|app, argv, cwd| {
+            println!("Se intentó abrir una nueva instancia con args: {:?}, cwd: {:?}", argv, cwd);
+            let _ = app.emit("single-instance", ());
+        }))
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_notification::init())
         .plugin(tauri_plugin_autostart::init(MacosLauncher::LaunchAgent, Some(vec![])))
