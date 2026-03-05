@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Privacidad - Batería al 100</title>
+    <meta name="description" content="Política de privacidad de Batería al 100.">
+    
+    <!-- SEO Básico -->
+    <meta name="robots" content="noindex, follow">
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Preload critical CSS variables to prevent flash of unstyled content */
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f1f5f9;
+        }
+        body { background-color: var(--bg-color); color: var(--text-color); }
+        
+        .privacy-section {
+            padding-top: 120px; /* Offset for fixed header */
+            padding-bottom: var(--spacing-xl);
+            min-height: calc(100vh - 100px);
+        }
+        
+        .privacy-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: var(--spacing-lg);
+        }
+        
+        .privacy-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-lg);
+            color: var(--primary-color);
+            text-align: center;
+        }
+        
+        .privacy-content h2 {
+            font-size: 1.5rem;
+            margin-top: var(--spacing-lg);
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-color);
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 0.5rem;
+        }
+        
+        .privacy-content p, .privacy-content ul {
+            margin-bottom: var(--spacing-md);
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+        
+        .privacy-content ul {
+            padding-left: 1.5rem;
+            list-style-type: disc;
+        }
+        
+        .privacy-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: var(--spacing-md);
+            color: var(--primary-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .back-link:hover {
+            color: var(--primary-color-hover);
+        }
+    </style>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="icon.png">
+</head>
+<body>
+
+    <header class="header blur-bg">
+        <div class="container header-content">
+            <a href="index.html" class="logo" style="text-decoration: none;">
+                <img src="icon.png" alt="Logo" class="logo-icon-img">
+                <span class="logo-text">Batería <span class="highlight">al 100</span></span>
+            </a>
+            <nav class="nav">
+                <a href="https://github.com/SuKuShaing/Bateria-al-100" target="_blank" class="nav-link github-nav-icon" aria-label="GitHub Repository">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                    </svg>
+                </a>
+                <a href="index.html" class="btn btn-sm btn-outline nav-cta">Volver al inicio</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="privacy-section relative">
+            <!-- Background grid effect re-used from index -->
+            <div style="position: absolute; top:0; left:0; width:100%; height:100%; z-index:-1; pointer-events:none; background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px); background-size: 50px 50px;"></div>
+            
+            <div class="container">
+                <div class="privacy-content glass-panel animate-up visible">
+                    <a href="index.html" class="back-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                        Volver
+                    </a>
+                    
+                    <h1>Política de Privacidad</h1>
+                    
+                    <p><strong>Última actualización:</strong> 5 de Marzo de 2026</p>
+                    
+                    <p>En <strong>Batería al 100</strong>, la privacidad de nuestros usuarios es una prioridad absoluta. Esta Política de Privacidad describe cómo funciona nuestra aplicación y demuestra nuestro máximo compromiso con la protección de tu información personal.</p>
+                    
+                    <h2>1. Recopilación de Datos</h2>
+                    <p><strong>Batería al 100 no recopila, almacena, ni transmite ningún tipo de información personal, datos de uso, ni telemetría.</strong></p>
+                    <p>Nuestra aplicación está diseñada para funcionar de manera completamente local en tu sistema y cumplir exclusivamente con su propósito: monitorear el estado de tu batería para notificarte cuando alcance el 100%.</p>
+
+                    <h2>2. Uso de la Red e Internet</h2>
+                    <p>El funcionamiento principal de la aplicación no requiere conexión a Internet. Las únicas ocasiones en las que la aplicación podría realizar peticiones de red son:</p>
+                    <ul>
+                        <li><strong>Actualizaciones de Software:</strong> La aplicación puede conectarse a los servidores de GitHub para comprobar si existe una nueva versión disponible y descargarla, garantizando así que siempre tengas las últimas mejoras y parches de seguridad.</li>
+                    </ul>
+                    <p>Estas consultas de red son estándar y no incluyen información personal identificable del usuario o de su dispositivo.</p>
+                    
+                    <h2>3. Permisos Locales</h2>
+                    <p>Para su correcto funcionamiento, Batería al 100 requiere acceso a ciertas funciones del sistema operativo de manera estrictamente local:</p>
+                    <ul>
+                        <li>Lectura del estado de la batería (nivel de carga, estado de conexión).</li>
+                        <li>Permiso para mostrar notificaciones nativas en el sistema, lo cual es necesario para alertarte.</li>
+                    </ul>
+
+                    <h2>4. Transparencia y Código Abierto</h2>
+                    <p>Batería al 100 es un proyecto de código abierto (Open Source) bajo la licencia MIT. Todo nuestro código fuente es público y puede ser auditado por cualquier persona en nuestro repositorio oficial de GitHub.</p>
+                    <p>Te invitamos a revisar el código si deseas confirmar los procesos internos y el manejo de los recursos de tu computadora.</p>
+                    
+                    <h2>5. Cambios en esta Política</h2>
+                    <p>Cualquier actualización en nuestra Política de Privacidad será reflejada en esta página y en nuestro repositorio de GitHub. Si en el futuro se implementaran funciones que requiriesen un manejo diferente de la información (lo cual no está en nuestros planes), notificaremos a los usuarios de manera transparente y clara.</p>
+                    
+                    <h2>6. Contacto</h2>
+                    <p>Si tienes alguna pregunta, inquietud o sugerencia sobre nuestra política de privacidad o la forma en que funciona la aplicación, puedes abrir un "Issue" en nuestro repositorio de GitHub:</p>
+                    <p><a href="https://github.com/SuKuShaing/Bateria-al-100/issues" target="_blank" style="color: var(--primary-color);">Repositorio en GitHub - Issues</a></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-left">
+                <div class="logo">
+                    <img src="icon.png" alt="Logo" class="logo-icon-img">
+                    <span class="logo-text">Batería <span class="highlight">al 100</span></span>
+                </div>
+                <p class="footer-copy">&copy; 2026 Sebastián Sanhueza Tapia. Open Source con licencia MIT.</p>
+                <p class="footer-copy" style="margin-top: 0.25rem;"><a href="privacy.html" style="text-decoration: underline; color: inherit; opacity: 0.8; transition: opacity 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Política de Privacidad</a></p>
+            </div>
+            <div class="footer-right" style="display: flex; align-items: center; gap: 1rem;">
+                <a href="https://github.com/SuKuShaing/Bateria-al-100/releases" target="_blank" rel="noopener" style="text-decoration: none; padding-top: 5px;">
+                    <img src="https://img.shields.io/github/downloads/SuKuShaing/Bateria-al-100/total?logo=github&style=flat&color=0ea5e9" alt="Total Downloads" height="24" style="border-radius: 4px; opacity: 0.8; transition: opacity 0.3s; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">
+                </a>
+                <a href="https://github.com/SuKuShaing/Bateria-al-100" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <!-- Icono de GitHub -->
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                    GitHub
+                </a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
