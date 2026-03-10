@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
             id: "win",
             icon: osIcons.win,
             suffix: "Descargar para Windows",
-            file: "BateriaAlCien_0.1.10_x64-setup.exe",
+            url: "https://apps.microsoft.com/detail/9NKTXXC7PJHR",
         },
         {
             os: "Mac",
@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const primaryBtnText = document.getElementById("primary-btn-text");
 
     if (primaryBtn && primaryOption) {
-        primaryBtn.href = baseUrl + primaryOption.file;
+        primaryBtn.href = primaryOption.url || (baseUrl + primaryOption.file);
         primaryBtnText.textContent = primaryOption.suffix;
         primaryBtn.querySelector(".btn-icon").innerHTML = primaryOption.icon;
     }
@@ -116,12 +116,17 @@ document.addEventListener("DOMContentLoaded", () => {
     if (dropdownMenu) {
         otherOptions.forEach((opt) => {
             const link = document.createElement("a");
-            link.href = baseUrl + opt.file;
+            link.href = opt.url || (baseUrl + opt.file);
             link.className = "dropdown-item";
+            link.target = "_blank";
+
+            const btnText = opt.url 
+                ? "Descargar de Microsoft Store" 
+                : `Descargar ${opt.file.split(".").pop().toUpperCase()}`;
 
             link.innerHTML = `
                 <span class="dropdown-item-icon">${opt.icon}</span>
-                <span>Descargar ${opt.file.split(".").pop().toUpperCase()}</span>
+                <span>${btnText}</span>
             `;
 
             dropdownMenu.appendChild(link);
