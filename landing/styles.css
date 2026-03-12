@@ -21,6 +21,7 @@
     --glass-bg: rgba(21, 27, 43, 0.6);
     --glass-border: rgba(255, 255, 255, 0.08);
     --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    --glass-shadow-short: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
 
     /* Spacing */
     --container-width: 1200px;
@@ -93,7 +94,7 @@ ul {
     -webkit-backdrop-filter: blur(8px);
     border: 1px solid var(--glass-border);
     border-radius: 16px;
-    box-shadow: var(--glass-shadow);
+    box-shadow: var(--glass-shadow-short);
 }
 
 /* ===== Typography ===== */
@@ -565,6 +566,95 @@ h3 {
     position: absolute;
     left: 0;
     top: 2px;
+}
+
+/* ===== FAQ Section ===== */
+.faq {
+    background: var(--bg-color-light);
+}
+
+.faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.faq-item {
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    margin-bottom: 0;
+}
+
+.faq-item:hover {
+    border-color: rgba(56, 189, 248, 0.3);
+}
+
+.faq-question {
+    padding: 1.5rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+    list-style: none; /* remove default triangle */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-color);
+}
+
+.faq-question::-webkit-details-marker {
+    display: none;
+}
+
+.faq-question::after {
+    content: "+";
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    transition: transform 0.3s ease;
+    font-weight: 300;
+}
+
+details[open] .faq-question::after {
+    transform: rotate(45deg);
+}
+
+.faq-answer {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.6;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* FAQ CTA */
+.faq-cta {
+    margin-top: 2.5rem;
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.faq-cta p {
+    color: var(--text-color);
+    font-size: 1.05rem;
+    font-weight: 500;
 }
 
 /* ===== Footer ===== */
