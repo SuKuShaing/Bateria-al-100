@@ -1,5 +1,6 @@
 /* ===== CSS Variables & Design Tokens ===== */
 :root {
+    interpolate-size: allow-keywords; /* necesario para el despliegue suave de detalles */
     /* Colors */
     --bg-color: #0f172a;
     --bg-color-light: #1e293b;
@@ -585,6 +586,20 @@ h3 {
     transition: all 0.3s ease;
     border-radius: 12px;
     margin-bottom: 0;
+    overflow: hidden; /* necesario para el despliegue suave */
+}
+
+/* Transiciones para el despliegue suave */
+.faq-item::details-content {
+    block-size: 0;
+    transition: 
+        block-size 0.5s ease-out,
+        content-visibility 0.5s ease-out;
+    transition-behavior: allow-discrete;
+}
+
+.faq-item[open]::details-content {
+    block-size: auto;
 }
 
 .faq-item:hover {
@@ -602,6 +617,17 @@ h3 {
     justify-content: space-between;
     align-items: center;
     color: var(--text-color);
+    transition: all ease-in-out;
+}
+
+.faq-item:not([open]) .faq-question {
+    transition-delay: 0.4s;
+    transition-duration: 0.3s;
+}
+
+.faq-item[open] .faq-question {
+    transition-delay: 0s;
+    transition-duration: 0.1s;
 }
 
 .faq-question::-webkit-details-marker {
@@ -625,7 +651,7 @@ details[open] .faq-question::after {
     color: var(--text-muted);
     font-size: 1rem;
     line-height: 1.6;
-    animation: fadeIn 0.3s ease-in-out;
+    animation: fadeIn 0.5s ease-in-out;
 }
 
 @keyframes fadeIn {
