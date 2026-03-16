@@ -81,6 +81,15 @@ h1 {
     color: transparent;
 }
 
+.preference-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 8px;
+    margin-bottom: 0px;
+    line-height: 1.4;
+    white-space: pre-line;
+}
+
 .setting-group {
     display: flex;
     flex-direction: column;

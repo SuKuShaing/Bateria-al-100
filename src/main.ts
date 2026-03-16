@@ -25,6 +25,7 @@ async function checkAndEnforceNotificationPermission() {
         if (osPermissionState === "Denied") {
             // Forzosamente apagar el toggle si el OS bloquea
             enabledToggle.checked = false;
+            updatePreferenceSubtitle();
 
             if (updateStatus) {
                 updateStatus.textContent = "Permisos denegados por el sistema";
@@ -44,6 +45,21 @@ async function checkAndEnforceNotificationPermission() {
     }
 }
 
+function updatePreferenceSubtitle() {
+    const subtitle = document.querySelector("#preference-subtitle");
+    if (!subtitle || !thresholdSlider || !enabledToggle) return;
+    
+    const threshold = parseInt(thresholdSlider.value || "100");
+    const isEnabled = enabledToggle.checked;
+    
+    if (isEnabled) {
+        subtitle.textContent = `Te avisaré cuando la batería llegue al ${threshold}%`;
+    } else {
+        subtitle.textContent = `No te puedo avisar cuando la batería llegue al ${threshold}%\nActiva las notificaciones`;
+    }
+    subtitle.classList.remove("hidden");
+}
+
 async function loadSettings() {
     try {
         const settings = await invoke<AppSettings>("get_app_settings");
@@ -57,6 +73,7 @@ async function loadSettings() {
         if (settings.enabled) {
             await checkAndEnforceNotificationPermission();
         }
+        updatePreferenceSubtitle();
     } catch (error) {
         console.error("Failed to load settings:", error);
     }
@@ -132,6 +149,7 @@ window.addEventListener("DOMContentLoaded", () => {
         const val = (e.target as HTMLInputElement).value;
         if (thresholdInput) thresholdInput.value = val;
         lastValidValue = parseInt(val);
+        updatePreferenceSubtitle();
     });
 
     // 1.b Slider change (When dropped, auto-save)
@@ -147,6 +165,7 @@ window.addEventListener("DOMContentLoaded", () => {
             let clampedForSlider = Math.max(10, Math.min(100, val));
             if (thresholdSlider)
                 thresholdSlider.value = clampedForSlider.toString();
+            updatePreferenceSubtitle();
         }
     });
 
@@ -169,6 +188,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
             // Validate if we actually need to save
             if (requiresSave) saveSettings();
+            updatePreferenceSubtitle();
         }
     });
 
@@ -187,6 +207,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 if (newState === "Denied") {
                     // El OS o el usuario rechazó el permiso
                     enabledToggle.checked = false;
+                    updatePreferenceSubtitle();
                     if (updateStatus) {
                         updateStatus.textContent =
                             "Permisos denegados por el sistema";
@@ -218,6 +239,7 @@ window.addEventListener("DOMContentLoaded", () => {
         }
 
         saveSettings();
+        updatePreferenceSubtitle();
     });
 
     // --- Update Checker Logic ---
