@@ -51,14 +51,14 @@ document.addEventListener("DOMContentLoaded", () => {
             id: "mac",
             icon: osIcons.mac,
             suffix: "Descargar para Mac",
-            file: "BateriaAlCien_0.1.13_aarch64.dmg",
+            file: "BateriaAlCien_0.1.14_aarch64.dmg",
         },
         {
             os: "Linux",
             id: "linux",
             icon: osIcons.linux,
             suffix: "Descargar para Linux",
-            file: "BateriaAlCien_0.1.13_amd64.AppImage",
+            file: "BateriaAlCien_0.1.14_amd64.AppImage",
         },
     ];
 
