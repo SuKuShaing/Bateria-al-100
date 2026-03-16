@@ -33,6 +33,13 @@ jobs:
       - name: Install frontend dependencies
         run: npm install
 
+      - name: Setup Apple API Key for Notarization (macOS only)
+        if: matrix.platform == 'macos-latest'
+        env:
+          API_KEY_BASE64: ${{ secrets.APPLE_API_KEY_BASE64 }}
+        run: |
+          echo "$API_KEY_BASE64" | base64 --decode > ${{ runner.temp }}/api_key.p8
+
       - name: Build and upload
         uses: tauri-apps/tauri-action@v0
         env:
@@ -43,7 +50,7 @@ jobs:
           APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
           APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
           APPLE_API_KEY: ${{ secrets.APPLE_API_KEY }}
-          APPLE_API_KEY_BASE64: ${{ secrets.APPLE_API_KEY_BASE64 }}
+          APPLE_API_KEY_PATH: ${{ runner.temp }}/api_key.p8
         with:
           tagName: ${{ github.ref_name }}
           releaseName: 'Batería al 100 v__VERSION__'
