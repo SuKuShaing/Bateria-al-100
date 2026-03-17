@@ -114,7 +114,7 @@ mod modules;
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_single_instance::init(|app, argv, cwd| {
-            println!("Se intentó abrir una nueva instancia con args: {:?}, cwd: {:?}", argv, cwd);
+            log::info!("Se intentó abrir una nueva instancia con args: {:?}, cwd: {:?}", argv, cwd);
             let _ = app.emit("single-instance", ());
             if let Some(window) = app.get_webview_window("main") {
                 let _ = window.show();
@@ -135,7 +135,7 @@ pub fn run() {
                 let autostart_manager = app.autolaunch();
                 if let Ok(enabled) = autostart_manager.is_enabled() {
                     if !enabled {
-                        println!("Enabling autostart...");
+                        log::info!("Enabling autostart...");
                         let _ = autostart_manager.enable();
                     }
                 }

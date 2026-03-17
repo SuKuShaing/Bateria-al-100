@@ -88,14 +88,14 @@ Para que GitHub Actions pueda firmar la app en los servidores de Apple (`notariz
 
 1.  **Register an App ID (Identificador):**
     - En [Certificates, Identifiers & Profiles](https://developer.apple.com/account/resources/identifiers/list), crea un nuevo ID de App (App ID).
-    - El **Bundle ID** es crucial. Debe coincidir exactamente con el campo `identifier` en tu [tauri.conf.json](file:///d:/Progra/Proyectos_personales/Bateria-al-100/src-tauri/tauri.conf.json) (ejemplo: `com.sukushaing.bateriaalcien`). Ojo: No puedes usar `com.tauri.build`.
+    - El **Bundle ID** es crucial. Debe coincidir exactamente con el campo `identifier` en tu `tauri.conf.json` (ejemplo: `com.sukushaing.bateriaalcien`). Ojo: No puedes usar `com.tauri.build`.
 2.  **App Store Connect:**
     - Ve a **My Apps** en App Store Connect y crea una nueva aplicación.
     - Selecciona macOS y asóciala al Bundle ID que creaste en el paso anterior. (Este paso es necesario para la automatización, incluso si solo distribuyes fuera de la Mac App Store, el backend los asocia).
 
 ---
 
-## Parte 5: Configuración de Tauri ([tauri.conf.json](file:///d:/Progra/Proyectos_personales/Bateria-al-100/src-tauri/tauri.conf.json))
+## Parte 5: Configuración de Tauri (`tauri.conf.json`)
 
 Debemos preparar a Tauri para la compilación en Mac. Abre el archivo de tu proyecto y asegúrate de estos valores:
 
@@ -116,7 +116,7 @@ Debemos preparar a Tauri para la compilación en Mac. Abre el archivo de tu proy
 }
 ```
 
-Es muy común necesitar un archivo de "entitlements" genérico (permisos). Crea un archivo llamado [entitlements.mac.plist](file:///d:/Progra/Proyectos_personales/Bateria-al-100/src-tauri/entitlements.mac.plist) en la raíz de tu proyecto (o carpeta src-tauri):
+Es muy común necesitar un archivo de "entitlements" genérico (permisos). Crea un archivo llamado `entitlements.mac.plist` en la raíz de tu proyecto (o carpeta src-tauri):
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -133,26 +133,34 @@ Es muy común necesitar un archivo de "entitlements" genérico (permisos). Crea 
 
 ## Parte 6: Integrar con GitHub Actions
 
+### Paso 6.1: Preparar los Secrets
+
 1. Ve a tu repositorio en GitHub -> **Settings** -> **Secrets and variables** -> **Actions**.
-2. Necesitamos convertir el archivo `.p12` que creaste en el Paso 2 en texto Base64 para guardarlo en un Secret porque GitHub Secrets no acepta archivos binarios:
-   Abre Git Bash y ejecuta:
+2. Convierte el archivo `.p12` a texto Base64 (GitHub Secrets no acepta archivos binarios):
     ```bash
     base64 -i certificado_final.p12 > cert_base64.txt
     ```
-3. Añade los siguientes **Repository Secrets**:
-    - `APPLE_CERTIFICATE_BASE64` (Pega el contenido del `cert_base64.txt`).
-    - `APPLE_CERTIFICATE_PASSWORD` (La contraseña que pusiste al crear el `.p12`).
-    - `APPLE_API_ISSUER` (El Issuer ID del Paso 3).
-    - `APPLE_API_KEY` (El Key ID del Paso 3).
-    - `APPLE_API_KEY_BASE64` (Abre el archivo `.p8` descargado en el Paso 3, cópialo, y hazle `base64` igual que con el certificado, o pega el contenido tal cual dependiendo del Action. Generalmente Tauri recomienda base64 de la llave raw y la ruta).
+3. Haz lo mismo con el archivo `.p8` del Paso 3:
+    ```bash
+    base64 -i AuthKey_XXXXXXXXXX.p8 > api_key_base64.txt
+    ```
+4. Añade estos **5 Repository Secrets** (son los únicos necesarios):
 
-    _Variables específicas para notarización/firma directa de Tauri:_
-    - `APPLE_ID` (Tu usuario o correo del Apple ID - **Alternativa a la API Key, a veces requerido por ALTOOL**).
-    - `APPLE_PASSWORD` (Tu "App-Specific password" generada en [appleid.apple.com](https://appleid.apple.com), en la sección seguridad. **OJO: NO tu password de iCloud**).
-    - `APPLE_TEAM_ID` (Lo encuentras en tu Apple Developer Membership d154. **Modifica tu archivo Workflow de Release de Tauri (Ej. [.github/workflows/release.yml](file:///d:/Progra/Proyectos_personales/Bateria-al-100/.github/workflows/release.yml))**:
+    | Secret Name | Valor |
+    |---|---|
+    | `APPLE_CERTIFICATE_BASE64` | Contenido de `cert_base64.txt` |
+    | `APPLE_CERTIFICATE_PASSWORD` | Contraseña que pusiste al crear el `.p12` |
+    | `APPLE_API_ISSUER` | Issuer ID del Paso 3 |
+    | `APPLE_API_KEY` | Key ID del Paso 3 |
+    | `APPLE_API_KEY_BASE64` | Contenido de `api_key_base64.txt` |
 
-El "Action" oficial de Tauri (`tauri-apps/tauri-action`) es inteligente y automáticamente tomará las llaves del entorno para firmar los binarios de macOS.
-Deberás añadir estas variables en el bloque `env` de tu paso de construcción. Aquí hay un ejemplo final:
+### Paso 6.2: Configurar el Workflow de GitHub Actions
+
+> [!IMPORTANT]
+> El Action de Tauri (`tauri-apps/tauri-action`) se encarga automáticamente de importar el certificado `.p12` al keychain de macOS. **NO** necesitas escribir comandos `security import` manuales.
+> Sin embargo, para la **notarización**, Tauri necesita que la llave API `.p8` exista como un **archivo real** en disco, no como texto Base64. Por eso necesitamos un paso previo que decodifique el Secret y lo escriba en un archivo temporal.
+
+Aquí está el ejemplo completo y funcional del workflow:
 
 ```yaml
 steps:
@@ -160,27 +168,41 @@ steps:
 
     # [Tus otros pasos de setup de Rust y Node]...
 
-    - name: Usar Tauri Action
+    # PASO CLAVE: Decodificar la API Key .p8 a un archivo real
+    - name: Setup Apple API Key for Notarization (macOS only)
+      if: matrix.platform == 'macos-latest'
+      env:
+          API_KEY_BASE64: ${{ secrets.APPLE_API_KEY_BASE64 }}
+      run: |
+          echo "$API_KEY_BASE64" | base64 --decode > ${{ runner.temp }}/api_key.p8
+
+    - name: Build and upload
       uses: tauri-apps/tauri-action@v0
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Variables de Entorno para Firma y Notarización de macOS
+          # --- Firma del código (certificado .p12) ---
           APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE_BASE64 }}
           APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          # --- Notarización (API Key de App Store Connect) ---
           APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
           APPLE_API_KEY: ${{ secrets.APPLE_API_KEY }}
-          APPLE_API_KEY_BASE64: ${{ secrets.APPLE_API_KEY_BASE64 }}
+          APPLE_API_KEY_PATH: ${{ runner.temp }}/api_key.p8
 ```
+
+> [!CAUTION]
+> **Errores comunes que nos encontramos y sus soluciones:**
+> 1. **`MAC verification failed during PKCS12 import (wrong password?)`**: Esto ocurre porque OpenSSL v3 (incluido en Git Bash de Windows) usa algoritmos de encriptación modernos que macOS no reconoce. **Solución:** Al crear el `.p12`, usar la flag `-legacy` (ver Paso 2.4).
+> 2. **`Apple no pudo verificar que la app no contenga software malicioso`**: Significa que la app está **firmada** pero **no notarizada**. **Solución:** Asegurarse de que la API Key `.p8` se decodifica como archivo real y se pasa como `APPLE_API_KEY_PATH` (no como `APPLE_API_KEY_BASE64`).
 
 ## Resumen del Flujo de Trabajo
 
-1.  Pagas tu membresía ($99).
-2.  Generas un CSR con Git Bash (Windows).
-3.  Solicitas un _Developer ID Certificate_ en portal de Apple, descargas `.cer` y creas un `.p12` usando la flag `-legacy`.
-4.  Subes el `.p12` codificado en base64 a GitHub como Secret, junto a la contraseña, y tu App Store Connect API Key.
-5.  Actualizas [tauri.conf.json](file:///d:/Progra/Proyectos_personales/Bateria-al-100/src-tauri/tauri.conf.json) con tu Bundle ID y el archivo de Entitlements de Mac (`com.apple.security.app-sandbox` en false).
-6.  Github Actions lanza un job sobre sistema Mac, le pasas las variables de entorno de Apple al Action oficial de Tauri.
-7.  Tauri construye, invoca en secreto las herramientas de seguridad de macOS pasándoles tus variables, firma el `.dmg` y lo sube a notarizar a los servidores de Apple.
-8.  Al completarse, el `.dmg` final descargable ya no mostrará el mensaje _"App está Dañada"_.` en los "Releases" vendrá firmado. Ya no dirá _"App está Dañada"_.
+1. Pagas tu membresía ($99).
+2. Generas un CSR con Git Bash (Windows).
+3. Solicitas un _Developer ID Certificate_ en el portal de Apple, descargas `.cer` y creas un `.p12` **usando la flag `-legacy`**.
+4. Subes el `.p12` y la API Key `.p8` codificados en Base64 a GitHub como Secrets, junto a la contraseña, Issuer ID y Key ID.
+5. Actualizas `tauri.conf.json` con tu Bundle ID y el archivo de Entitlements (`com.apple.security.app-sandbox` en `false`).
+6. En el workflow de GitHub Actions, decodificas la API Key `.p8` a un archivo real y le pasas la ruta como `APPLE_API_KEY_PATH`.
+7. Tauri construye, firma el `.dmg` con tu certificado e invoca la notarización en los servidores de Apple.
+8. Al completarse, el `.dmg` descargable estará firmado y notarizado. macOS lo abrirá sin advertencias.
 
 _(Para subir directo a la Mac App Store es un procedimiento similar donde cambias el tipo de certificado a 'Mac App Distribution' al principio, y subes el `.pkg` en lugar del `.dmg` usando Transporter Desktop CLI)._
