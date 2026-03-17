@@ -40,6 +40,90 @@
     </style>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/png" href="icon.png">
+
+    <!-- Datos Estructurados (Schema.org) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Batería al 100",
+        "description": "Aplicación minimalista para notebooks y laptops que te notifica cuando tu batería llega al 100% para evitar la degradación y alargar su vida útil.",
+        "url": "https://sukushaing.github.io/Bateria-al-100/",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Windows, macOS, Linux",
+        "softwareVersion": "0.1.15",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "author": {
+            "@type": "Person",
+            "name": "Sebastián Sanhueza Tapia",
+            "url": "https://github.com/SuKuShaing"
+        },
+        "license": "https://opensource.org/licenses/MIT",
+        "featureList": [
+            "Alertas Precisas: notificación nativa cuando la batería alcanza el 100%",
+            "Ultra Ligero: construido con Tauri y Rust, consumo mínimo de RAM y CPU",
+            "Previene Degradación: evita que la batería se mantenga al 100% enchufada"
+        ],
+        "screenshot": "https://sukushaing.github.io/Bateria-al-100/og-image.png",
+        "image": "https://sukushaing.github.io/Bateria-al-100/icon.png",
+        "downloadUrl": "https://github.com/SuKuShaing/Bateria-al-100/releases",
+        "installUrl": "https://github.com/SuKuShaing/Bateria-al-100/releases",
+        "releaseNotes": "https://github.com/SuKuShaing/Bateria-al-100/releases"
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "¿Por qué no se muestran las notificaciones?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Generalmente, esto sucede porque el equipo se encuentra en modo \"No molestar\" o \"Asistente de concentración\". Verifica la configuración de tu sistema operativo para asegurarte de que las notificaciones generales de la aplicación estén permitidas."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "¿Por qué no se muestran mis notificaciones con dos pantallas?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Ciertos sistemas operativos bloquean automáticamente las alertas al detectar una segunda pantalla (para evitar interrupciones durante presentaciones). En Windows, puedes solucionarlo yendo a Configuración > Sistema > Notificaciones > Activar no molestar automáticamente y desactivando la opción \"Cuando dupliques la pantalla (las notificaciones de prioridad también se ocultan)\"."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Batería al 100 - Maximiza la Vida Útil de tu Batería",
+        "url": "https://sukushaing.github.io/Bateria-al-100/",
+        "description": "Aplicación minimalista para notebooks y laptops que te notifica cuando tu batería llega al 100% para evitar la degradación y alargar su vida útil.",
+        "inLanguage": "es",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "Batería al 100",
+            "url": "https://sukushaing.github.io/Bateria-al-100/"
+        },
+        "about": {
+            "@type": "SoftwareApplication",
+            "name": "Batería al 100"
+        },
+        "author": {
+            "@type": "Person",
+            "name": "Sebastián Sanhueza Tapia"
+        }
+    }
+    </script>
 </head>
 <body>
 
