@@ -94,11 +94,11 @@ pub fn init_background_poll<R: Runtime>(app: AppHandle<R>) {
                                     info!("THRESHOLD REACHED: Battery is full at {:.0}%! (Alert {}/5)", level, alert_count + 1);
                                     
                                     // Story 2.2 - Trigger Notification
-                                    let _ = app.notification()
-                                        .builder()
-                                        .title("Batería al 100")
-                                        .body(format!("Tu batería está al {:.0}%. ¡Desconéctala para cuidar su salud!", level))
-                                        .show();
+                                    crate::send_notification(
+                                        &app,
+                                        "Batería al 100",
+                                        &format!("Tu batería está al {:.0}%. ¡Desconéctala para cuidar su salud!", level),
+                                    );
 
                                     alert_count += 1;
                                     last_alert_time = Some(Instant::now());

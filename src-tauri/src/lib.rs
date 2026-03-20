@@ -110,6 +110,28 @@ fn request_notification_permission(app: AppHandle) -> String {
 
 mod modules;
 
+#[cfg(windows)]
+pub fn send_notification<R: tauri::Runtime>(_app: &tauri::AppHandle<R>, title: &str, body: &str) {
+    use tauri_winrt_notification::{Duration, Sound, Toast};
+    if let Err(e) = Toast::new(Toast::POWERSHELL_APP_ID)
+        .title(title)
+        .text1(body)
+        .sound(Some(Sound::Default))
+        .duration(Duration::Short)
+        .show()
+    {
+        log::error!("Fallo al enviar notificación WinRT: {:?}", e);
+    }
+}
+
+#[cfg(not(windows))]
+pub fn send_notification<R: tauri::Runtime>(app: &tauri::AppHandle<R>, title: &str, body: &str) {
+    use tauri_plugin_notification::NotificationExt;
+    if let Err(e) = app.notification().builder().title(title).body(body).show() {
+        log::error!("Fallo al enviar notificación nativa: {}", e);
+    }
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -177,15 +199,11 @@ pub fn run() {
                             }
 
                             if has_permission {
-                                if let Err(e) = handle_clone
-                                    .notification()
-                                    .builder()
-                                    .title("Actualización disponible")
-                                    .body(&format!("Nueva versión {} disponible. Descárgala desde GitHub.", update.version))
-                                    .show()
-                                {
-                                    log::error!("Failed to send update notification: {}", e);
-                                }
+                                crate::send_notification(
+                                    &handle_clone,
+                                    "Actualización disponible",
+                                    &format!("Nueva versión {} disponible. Descárgala desde GitHub.", update.version),
+                                );
                             } else {
                                 log::warn!("Notification permission denied, unable to show update alert.");
                             }
